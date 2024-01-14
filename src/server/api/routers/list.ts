@@ -31,6 +31,9 @@ export const listRouter = createTRPCRouter({
         where: {
           id: input.id,
         },
+        include: {
+          items: true,
+        },
       });
     }),
   update: publicProcedure
