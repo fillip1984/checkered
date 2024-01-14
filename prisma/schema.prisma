@@ -10,11 +10,27 @@ datasource db {
     url      = env("DATABASE_URL")
 }
 
-model Post {
-    id        Int      @id @default(autoincrement())
-    name      String
+model List {
+    id        String   @id @default(cuid())
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
 
+    name        String
+    description String
+
+    items Item[]
+
     @@index([name])
+}
+
+model Item {
+    id        String   @id @default(cuid())
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    name        String
+    description String
+
+    List   List   @relation(fields: [listId], references: [id])
+    listId String
 }
