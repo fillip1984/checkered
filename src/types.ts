@@ -4,6 +4,7 @@ export const itemFormSchema = z.object({
   id: z.string().nullish(),
   name: z.string().min(2),
   description: z.string().min(2),
+  listId: z.string().nullish(),
 });
 
 export type ItemType = z.infer<typeof itemFormSchema>;

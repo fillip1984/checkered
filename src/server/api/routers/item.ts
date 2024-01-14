@@ -7,11 +7,15 @@ export const itemRouter = createTRPCRouter({
   create: publicProcedure
     .input(itemFormSchema)
     .mutation(async ({ ctx, input }) => {
+      if (!input.listId) {
+        throw new Error("Unable to create item without listId");
+      }
+
       return ctx.db.item.create({
         data: {
           name: input.name,
           description: input.description,
-          listId: "1",
+          listId: input.listId,
         },
       });
     }),

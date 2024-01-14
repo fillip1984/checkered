@@ -59,10 +59,8 @@ export default function ListPage({ params }: { params: { id: string } }) {
   const onSubmit: SubmitHandler<ListType> = (formData) => {
     if (isNew) {
       createListMutator.mutate(formData);
-      router.push("/");
     } else {
       updateListMutator.mutate(formData);
-      router.push("/");
     }
   };
 
