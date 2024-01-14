@@ -13,6 +13,11 @@ export const listFormSchema = z.object({
   name: z.string().min(2),
   description: z.string().min(2),
   items: z.array(itemFormSchema).nullish(),
+  _count: z
+    .object({
+      items: z.number(),
+    })
+    .nullish(),
 });
 
 export type ListType = z.infer<typeof listFormSchema>;

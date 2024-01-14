@@ -19,6 +19,9 @@ export const listRouter = createTRPCRouter({
       orderBy: {
         name: "asc",
       },
+      include: {
+        _count: { select: { items: true } },
+      },
     });
   }),
   readOne: publicProcedure
