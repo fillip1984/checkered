@@ -1,24 +1,25 @@
-import Link from "next/link";
-import { api } from "~/trpc/server";
+"use client";
 
-export default async function Home() {
+import Link from "next/link";
+import { api } from "~/trpc/react";
+import ListCard from "./_components/lists/ListCard";
+import { BsPlusLg } from "react-icons/bs";
+
+export default function Home() {
   // server side???
-  const listQuery = await api.list.readAll.query();
+  const listQuery = api.list.readAll.useQuery();
 
   return (
-    <main className="container bg-danger">
-      <h1>Checkered</h1>
-      {listQuery.map((list) => (
-        <Link key={list.id} href={`lists/${list.id}`}>
-          {list.name}
+    <main className="container m-auto">
+      <div className="my-2 flex gap-2">
+        {listQuery.data?.map((list) => <ListCard key={list.id} list={list} />)}
+        <Link
+          href="/lists/new"
+          className="flex min-h-[130px] min-w-[150px] flex-col items-center justify-center gap-3 rounded border border-accent p-1">
+          New List
+          <BsPlusLg className="text-4xl" />
         </Link>
-      ))}
-      <Link
-        href="/lists/new"
-        className="w-48 rounded border border-accent bg-accent"
-      >
-        New List
-      </Link>
+      </div>
     </main>
   );
 }
