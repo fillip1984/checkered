@@ -11,9 +11,10 @@ export default function ItemCard({
 }) {
   return (
     <Link
-      href={`lists/${listId}`}
+      href={`/lists/${listId}/items/${item.id}`}
       className="flex min-h-[130px] w-full flex-col rounded border border-accent p-2">
-      ItemCard
+      {item.name}
+      <span className="text-sm font-thin">{item.description}</span>
     </Link>
   );
 }

@@ -16,9 +16,9 @@ export default function ListDetails({ params }: { params: { id: string } }) {
         ))}
         <Link
           href={`/lists/${params.id}/items/new`}
-          className="flex items-center rounded border border-accent p-2">
-          New Item
-          <BsPlusLg className="text-2xl" />
+          className="flex min-h-[130px] flex-col items-center justify-center rounded border border-accent p-2">
+          <span className="text-xl">New Item</span>
+          <BsPlusLg className="text-4xl" />
         </Link>
       </div>
     </div>

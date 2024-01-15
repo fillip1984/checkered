@@ -27,7 +27,7 @@ export default function ItemPage({
   });
 
   const existingItem = api.item.readOne.useQuery(
-    { id: params.id },
+    { id: params.itemId },
     { enabled: !!params.itemId && !isNew, refetchOnWindowFocus: false },
   );
 
@@ -83,6 +83,15 @@ export default function ItemPage({
         <label>
           Description
           <TextareaAutosize minRows={3} {...register("description")} />
+        </label>
+
+        <label>
+          Type
+          <select>
+            <option>&lt;Please make a selection&gt;</option>
+            <option>Count down</option>
+            <option>Count up</option>
+          </select>
         </label>
 
         <div className="buttons-container">

@@ -6,7 +6,6 @@ import ListCard from "./_components/lists/ListCard";
 import { BsPlusLg } from "react-icons/bs";
 
 export default function Home() {
-  // server side???
   const listQuery = api.list.readAll.useQuery();
 
   return (
