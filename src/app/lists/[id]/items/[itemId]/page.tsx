@@ -4,7 +4,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
-import { type SubmitHandler, useForm } from "react-hook-form";
+import { useForm, type SubmitHandler } from "react-hook-form";
 import TextareaAutosize from "react-textarea-autosize";
 import { api } from "~/trpc/react";
 import { itemFormSchema, type ItemType } from "~/types";
@@ -22,6 +22,7 @@ export default function ItemPage({
     handleSubmit,
     formState: { errors },
     reset,
+    watch,
   } = useForm<ItemType>({
     resolver: zodResolver(itemFormSchema),
   });
@@ -39,25 +40,20 @@ export default function ItemPage({
   }, [existingItem.data]);
 
   const utils = api.useUtils();
+  const onSuccess = async () => {
+    void utils.item.invalidate();
+    router.push(`/lists/${params.id}`);
+  };
   const createItemMutator = api.item.create.useMutation({
-    onSuccess: async () => {
-      await utils.item.invalidate();
-      router.push(`/lists/${params.id}`);
-    },
+    onSuccess,
   });
 
   const updateItemMutator = api.item.update.useMutation({
-    onSuccess: async () => {
-      await utils.item.invalidate();
-      router.push(`/lists/${params.id}`);
-    },
+    onSuccess,
   });
 
   const deleteItemMutator = api.item.delete.useMutation({
-    onSuccess: async () => {
-      await utils.item.invalidate();
-      router.push(`/lists/${params.id}`);
-    },
+    onSuccess,
   });
 
   const onSubmit: SubmitHandler<ItemType> = (formData) => {
@@ -86,13 +82,17 @@ export default function ItemPage({
         </label>
 
         <label>
-          Type
-          <select>
-            <option>&lt;Please make a selection&gt;</option>
-            <option>Count down</option>
-            <option>Count up</option>
+          Progress Type
+          <select {...register("progressType")}>
+            <option value="">&lt;Please make a selection&gt;</option>
+            <option value="Count down">Count down</option>
+            <option value="Count up">Count up</option>
           </select>
         </label>
+
+        {/* {watch("progressType") === "Count up" && <div>Up</div>} */}
+
+        {/* {watch("progressType") === "Count down" && <div>Down</div>} */}
 
         <div className="buttons-container">
           <button type="submit" className="btn-primary">

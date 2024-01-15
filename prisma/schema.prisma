@@ -28,9 +28,16 @@ model Item {
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
 
-    name        String
-    description String
+    name         String
+    description  String
+    progressType String
+    
 
     List   List   @relation(fields: [listId], references: [id])
     listId String
 }
+
+// enum ProgressType {
+//     UP
+//     DOWN
+// }

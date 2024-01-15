@@ -4,6 +4,7 @@ export const itemFormSchema = z.object({
   id: z.string().nullish(),
   name: z.string().min(2),
   description: z.string().min(2),
+  progressType: z.string().min(1),
   listId: z.string().nullish(),
 });
 

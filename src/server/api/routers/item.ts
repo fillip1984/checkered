@@ -15,6 +15,7 @@ export const itemRouter = createTRPCRouter({
         data: {
           name: input.name,
           description: input.description,
+          progressType: input.progressType,
           listId: input.listId,
         },
       });
@@ -49,6 +50,7 @@ export const itemRouter = createTRPCRouter({
         data: {
           name: input.name,
           description: input.description,
+          progressType: input.progressType,
         },
       });
     }),
