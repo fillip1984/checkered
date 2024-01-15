@@ -28,7 +28,7 @@ export default function RootLayout({
         className={`min-w-screen min-h-screen overflow-hidden bg-dark font-sans text-white ${inter.variable}`}>
         <TRPCReactProvider cookies={cookies().toString()}>
           <Nav />
-          {children}
+          <main>{children}</main>
         </TRPCReactProvider>
       </body>
     </html>
