@@ -34,7 +34,12 @@ export default function ItemPage({
 
   useEffect(() => {
     if (!isNew && existingItem.data) {
-      reset(existingItem.data as ItemType);
+      reset({
+        ...(existingItem.data as ItemType),
+        // nextDue: existingItem.data.nextDue
+        // ? format(existingItem.data.nextDue, "yyyy-MM-dd")
+        // : "",
+      });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [existingItem.data]);
@@ -69,17 +74,23 @@ export default function ItemPage({
   }, [errors]);
 
   return (
-    <div className="container mx-auto">
+    <div className="mx-auto max-w-[800px]">
       <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-2">
         <label>
           Name
           <input type="text" {...register("name")} />
         </label>
+        {errors.name && (
+          <span className="text-danger">{errors.name.message}</span>
+        )}
 
         <label>
           Description
           <TextareaAutosize minRows={3} {...register("description")} />
         </label>
+        {errors.description && (
+          <span className="text-danger">{errors.description.message}</span>
+        )}
 
         <label>
           Progress Type
@@ -89,24 +100,62 @@ export default function ItemPage({
             <option value="Count up">Count up</option>
           </select>
         </label>
+        {errors.progressType && (
+          <span className="text-danger">{errors.progressType.message}</span>
+        )}
 
-        {/* {watch("progressType") === "Count up" && <div>Up</div>} */}
+        <label>
+          Next Due Date
+          <input type="date" {...register("nextDue")} />
+        </label>
+        {errors.nextDue && (
+          <span className="text-danger">{errors.nextDue.message}</span>
+        )}
 
-        {/* {watch("progressType") === "Count down" && <div>Down</div>} */}
+        <label>
+          Interval
+          <select {...register("interval")}>
+            <option value="">&lt;Please make a selection&gt;</option>
+            <option value="Every X days">Every X days</option>
+            <option value="">On specific date (does not reoccur)</option>
+            <option value="">Every week on specific day</option>
+            <option value="">Every month on a specific day of month</option>
+          </select>
+        </label>
+        {errors.interval && (
+          <span className="text-danger">{errors.interval.message}</span>
+        )}
 
-        <div className="buttons-container">
+        {watch("interval") === "Every X days" && (
+          <>
+            <label>
+              Every X Days
+              <input
+                type="number"
+                {...register("everyXDays", { valueAsNumber: true })}
+              />
+            </label>
+            {errors.everyXDays && (
+              <span className="text-danger">{errors.everyXDays.message}</span>
+            )}
+          </>
+        )}
+
+        <div className="buttons-container mt-4">
           <button type="submit" className="btn-primary">
             Save
           </button>
           <Link href={`/lists/${params.id}`} className="btn-secondary">
             Cancel
           </Link>
-          <button
-            type="button"
-            onClick={() => deleteItemMutator.mutate({ id: params.itemId })}
-            className="btn-danger ml-auto">
-            Delete
-          </button>
+          {!isNew && (
+            <button
+              type="button"
+              onClick={() => deleteItemMutator.mutate({ id: params.itemId })}
+              className="btn-danger ml-auto">
+              Delete
+            </button>
+          )}
         </div>
       </form>
     </div>

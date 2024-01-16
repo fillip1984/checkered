@@ -31,7 +31,12 @@ model Item {
     name         String
     description  String
     progressType String
-    
+
+    // time is tricky, everything sent from the client converts to UTC. Would need to find a manner to take this into account and convert to end user timezone when retrieving
+    // easy way to side step this is to store and treat as string...which isn't ideal but works
+    nextDue    String
+    interval   String
+    everyXDays Int?
 
     List   List   @relation(fields: [listId], references: [id])
     listId String

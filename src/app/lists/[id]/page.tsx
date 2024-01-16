@@ -19,7 +19,7 @@ export default function ListDetails({ params }: { params: { id: string } }) {
       )}
 
       {!listQuery.isLoading && !listQuery.isError && (
-        <div className="container mx-auto">
+        <div className="mx-auto max-w-[800px]">
           <h2>{listQuery.data?.name}</h2>
           <div className="mt-2 flex flex-col gap-2">
             {listQuery.data?.items.map((item) => (
