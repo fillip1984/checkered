@@ -1,4 +1,4 @@
-import { formatDistanceToNow, parse } from "date-fns";
+import { differenceInCalendarDays, parse } from "date-fns";
 import Link from "next/link";
 import { BsCalendar2Event } from "react-icons/bs";
 import { type ItemType } from "~/types";
@@ -10,7 +10,25 @@ export default function ItemCard({
   item: ItemType;
   listId: string;
 }) {
+  const lastDueDate = item.lastDue
+    ? parse(item.lastDue, "yyyy-MM-dd", new Date())
+    : item.createdAt ?? new Date();
   const nextDueDate = parse(item.nextDue, "yyyy-MM-dd", new Date());
+
+  const totalDays = differenceInCalendarDays(nextDueDate, lastDueDate);
+  const daysRemaining = differenceInCalendarDays(nextDueDate, new Date());
+  const percent = 100 - (daysRemaining / totalDays) * 100;
+
+  const overdue = daysRemaining <= 0;
+  const today = daysRemaining === 0;
+  console.log({
+    today,
+    overdue,
+    name: item.name,
+    daysRemaining,
+    totalDays,
+    percent,
+  });
 
   return (
     <Link
@@ -28,11 +46,17 @@ export default function ItemCard({
           {item.nextDue}
         </span>
 
-        <div className="relative my-2 h-6 w-full rounded-lg border border-primary">
-          <span className="absolute inset-0 z-10 flex justify-center">
-            {formatDistanceToNow(nextDueDate, { addSuffix: true })}
+        <div className="relative mt-4 h-8 w-full rounded-lg border border-primary">
+          <span className="absolute inset-0 z-10 flex justify-center text-xl font-bold">
+            {today
+              ? "Today"
+              : overdue
+                ? daysRemaining * -1 + " days overdue"
+                : daysRemaining + " days remaining"}
           </span>
-          <div className="absolute h-6 w-3/4 rounded-l-lg bg-primary"></div>
+          <div
+            className={`absolute -z-0 h-8 ${percent >= 100 ? "rounded-lg" : "rounded-l-lg"} ${!today && overdue ? "bg-danger" : "bg-primary"}`}
+            style={{ width: `${overdue ? "100" : percent}%` }}></div>
         </div>
       </div>
     </Link>

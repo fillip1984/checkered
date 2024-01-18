@@ -6,7 +6,9 @@ export const itemFormSchema = z.object({
   description: z.string().min(2),
   progressType: z.string().min(1, { message: "Field is required" }),
   nextDue: z.string(),
-  interval: z.string().min(1, { message: "Field is required" }),
+  lastDue: z.string().nullish(),
+  createdAt: z.date().nullish(),
+  frequency: z.string().min(1, { message: "Field is required" }),
   everyXDays: z.number().nullish(),
   listId: z.string().nullish(),
 });

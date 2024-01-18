@@ -114,7 +114,7 @@ export default function ItemPage({
 
         <label>
           Interval
-          <select {...register("interval")}>
+          <select {...register("frequency")}>
             <option value="">&lt;Please make a selection&gt;</option>
             <option value="Every X days">Every X days</option>
             <option value="">On specific date (does not reoccur)</option>
@@ -122,11 +122,11 @@ export default function ItemPage({
             <option value="">Every month on a specific day of month</option>
           </select>
         </label>
-        {errors.interval && (
-          <span className="text-danger">{errors.interval.message}</span>
+        {errors.frequency && (
+          <span className="text-danger">{errors.frequency.message}</span>
         )}
 
-        {watch("interval") === "Every X days" && (
+        {watch("frequency") === "Every X days" && (
           <>
             <label>
               Every X Days

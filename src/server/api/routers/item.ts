@@ -17,7 +17,7 @@ export const itemRouter = createTRPCRouter({
           description: input.description,
           progressType: input.progressType,
           nextDue: input.nextDue,
-          interval: input.interval,
+          frequency: input.frequency,
           everyXDays: input.everyXDays,
           listId: input.listId,
         },
@@ -55,7 +55,7 @@ export const itemRouter = createTRPCRouter({
           description: input.description,
           progressType: input.progressType,
           nextDue: input.nextDue,
-          interval: input.interval,
+          frequency: input.frequency,
           everyXDays: input.everyXDays,
         },
       });
