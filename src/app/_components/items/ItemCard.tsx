@@ -1,4 +1,5 @@
 import { differenceInCalendarDays, parse } from "date-fns";
+import { motion } from "framer-motion";
 import Link from "next/link";
 import { BsCalendar2Event } from "react-icons/bs";
 import { type ItemType } from "~/types";
@@ -37,7 +38,7 @@ export default function ItemCard({
       {item.name}
       <span className="text-sm font-thin">{item.description}</span>
 
-      <div className="flex flex-col">
+      <div className="mt-4 flex flex-col">
         <span className="relative flex items-center gap-2">
           <BsCalendar2Event className="text-2xl" />
           {/* <span className="absolute left-1 top-1">
@@ -54,9 +55,14 @@ export default function ItemCard({
                 ? daysRemaining * -1 + " days overdue"
                 : daysRemaining + " days remaining"}
           </span>
-          <div
-            className={`absolute -z-0 h-8 ${percent >= 100 ? "rounded-lg" : "rounded-l-lg"} ${!today && overdue ? "bg-danger" : "bg-primary"}`}
-            style={{ width: `${overdue ? "100" : percent}%` }}></div>
+          <motion.div
+            initial={{
+              width: "0%",
+            }}
+            animate={{
+              width: `${percent <= 100 ? percent : 100}%`,
+            }}
+            className={`absolute -z-0 h-8 ${percent >= 100 ? "rounded-lg" : "rounded-l-lg"} ${!today && overdue ? "bg-danger" : "bg-primary"}`}></motion.div>
         </div>
       </div>
     </Link>
